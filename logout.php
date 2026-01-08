@@ -1,5 +1,5 @@
 <?php
 logout_user();
 
-redirect("index.php");
+redirect("home.php");
 exit;

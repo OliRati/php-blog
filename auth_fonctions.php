@@ -34,8 +34,8 @@ function login_user($pdo, $identifiant, $password)
         ];
     }
 
-    if (md5($password) !== $user['password']) {
-        // if (!password_verify($password, $user['password'])) {
+    // if (md5($password) !== $user['password']) {
+    if (!password_verify($password, $user['password'])) {
         return [
             'success' => false,
             'message' => 'Identifiant incorrect !'
@@ -43,6 +43,9 @@ function login_user($pdo, $identifiant, $password)
     }
 
     $_SESSION['logged_in'] = true;
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['email'] = $user['email'];
 
     return [
         'success' => true,
@@ -88,13 +91,46 @@ function register_user($pdo, $username, $email, $password)
     $stmt = $pdo->prepare("INSERT INTO blog.users (username, email, password, created_at) VALUES (?,?,?, NOW())");
     if ($stmt->execute([$username, $email, $password_hashed])) {
         return [
-            'success' => false,
-            'message' => 'Nom d\'utilisateur ou email déja utilisé.'
+            'success' => true,
+            'message' => 'Inscription réussie.'
         ];
     }
 
     return [
         'success' => false,
         'message' => 'Erreur lors de l\'inscription.'
+    ];
+}
+
+function update_user($pdo, $username, $email)
+{
+    if (empty($username) || empty($email)) {
+        return [
+            'success' => false,
+            'message' => 'Tous les champs sont obligatoires.'
+        ];
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return [
+            'success' => false,
+            'message' => 'Email invalide.'
+        ];
+    }
+
+    $stmt = $pdo->prepare("UPDATE users SET username=?, email=? WHERE id = ?");
+    if ($stmt->execute([$username, $email, $_SESSION['user_id']])) {
+        $_SESSION['username'] = $username;
+        $_SESSION['email'] = $email;
+
+        return [
+            'success' => true,
+            'message' => 'Mise à jour effectuée'
+        ];
+    }
+
+    return [
+        'success' => false,
+        'message' => 'Erreur lors de la mise à jour'
     ];
 }

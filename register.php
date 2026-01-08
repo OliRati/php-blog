@@ -5,9 +5,9 @@ if (is_logged_in()) {
 
 $errors = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion-btn'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inscription-btn'])) {
     $username = nettoyer($_POST['username']) ?? '';
-    $username = nettoyer($_POST['email']) ?? '';
+    $email = nettoyer($_POST['email']) ?? '';
     $password = trim($_POST['password']) ?? '';
     $password_confirm = trim($_POST['password_confirm']) ?? '';
 
@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion-btn'])) {
         $errors = 'Les mots de passe ne correspondent pas';
     } else {
         $resultat = register_user($pdo, $username, $email, $password);
-    }
 
-    if ($resultat['success']) {
-        redirect('home.php');
-    } else {
-        $errors = $resultat['message'];
+        if ($resultat['success']) {
+            redirect('login.php');
+        } else {
+            $errors = $resultat['message'];
+        }
     }
 }
 ?>

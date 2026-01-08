@@ -13,4 +13,6 @@ $routes = [
     'logout' => 'logout.php',
     'register' => 'register.php',
     'admin' => 'admin.php',
+    '404' => '404.php',
+    'profile' => 'profile.php'
 ];
