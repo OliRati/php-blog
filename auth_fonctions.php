@@ -50,7 +50,51 @@ function login_user($pdo, $identifiant, $password)
     ];
 }
 
-function register_user()
+function register_user($pdo, $username, $email, $password)
 {
+    if (empty($username) || empty($email) || empty($password)) {
+        return [
+            'success' => false,
+            'message' => 'Tous les champs sont obligatoires.'
+        ];
+    }
 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return [
+            'success' => false,
+            'message' => 'Email invalide.'
+        ];
+    }
+
+    if (strlen($password) < 6) {
+        return [
+            'success' => false,
+            'message' => 'Le mot de passe doit contenir au moins 6 caractères.'
+        ];
+    }
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+    $stmt->execute([$username, $email]);
+
+    if ($stmt->fetch()) {
+        return [
+            'success' => false,
+            'message' => 'Nom d\'utilisateur ou email déja utilisé.'
+        ];
+    }
+
+    $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $pdo->prepare("INSERT INTO blog.users (username, email, password, created_at) VALUES (?,?,?, NOW())");
+    if ($stmt->execute([$username, $email, $password_hashed])) {
+        return [
+            'success' => false,
+            'message' => 'Nom d\'utilisateur ou email déja utilisé.'
+        ];
+    }
+
+    return [
+        'success' => false,
+        'message' => 'Erreur lors de l\'inscription.'
+    ];
 }

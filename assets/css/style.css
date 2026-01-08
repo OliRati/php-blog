@@ -33,3 +33,10 @@ footer {
     max-width: 800px;
     margin: 0 auto;
 }
+
+.alert {
+    color: lightcoral;
+    padding: 1rem;
+    border: 1px solid lightgreen;
+    margin-bottom: 1rem;
+}

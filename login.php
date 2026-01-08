@@ -1,11 +1,9 @@
 <?php
-/* require 'auth_fonctions.php'; */
-
 if (is_logged_in()) {
     redirect('index.php');
 }
 
-$error = '';
+$errors = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion-btn'])) {
     $identifiant = $_POST['identifiant'] ?? '';
@@ -16,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion-btn'])) {
     if ($resultat['success']) {
         redirect('home.php');
     } else {
-        $error = $resultat['message'];
+        $errors = $resultat['message'];
     }
 }
 ?>
@@ -33,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion-btn'])) {
 <body>
     <main>
         <h1>Connexion</h1>
-        <?php if ($error): ?>
-            <div class="alert"><?= $error ?></div>
+        <?php if ($errors): ?>
+            <div class="alert"><?= $errors ?></div>
         <?php endif ?>
-        <form action="" method="post">
+        <form method="post">
             <div>
                 <label for="identifiant">Nom d'utilisateur ou email</label>
                 <input type="text" name="identifiant" id="identifiant" required>
