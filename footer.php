@@ -1,7 +1,9 @@
-<footer>
     <hr>
-    <p>(c)Le blog du Blogger</p>
-</footer>
+
+    <footer>
+        <p>(c)2026 Le blog du Blogger</p>
+    </footer>
 
 </body>
+
 </html>

@@ -1,6 +1,9 @@
 <?php
+session_start();
+
 require 'config.php';
 include 'fonctions.php';
+include 'auth_fonctions.php';
 
 
 $pageFiltre = filter_input(INPUT_GET, 'page' , FILTER_SANITIZE_FULL_SPECIAL_CHARS);
