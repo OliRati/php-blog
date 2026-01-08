@@ -1,0 +1,30 @@
+body {
+    background-color: #333;
+    color: antiquewhite;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a {
+    color:aquamarine;
+    text-decoration: none;
+}
+
+a:visited {
+    color: aquamarine;
+}
+
+ul {
+    list-style-type: none;
+}
+
+header,
+main,
+footer {
+    max-width: 800px;
+    margin: 0 auto;
+}
